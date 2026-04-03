@@ -1,0 +1,362 @@
+/* --- 1. Variáveis Globais (Design System) --- */
+:root {
+    --color-primary: #0f172a;      /* Azul muito escuro */
+    --color-accent: #f59e0b;       /* Laranja/Amarelo elegante */
+    --color-accent-hover: #d97706;
+    --color-bg: #f8fafc;
+    --color-surface: #ffffff;
+    --color-text: #334155;
+    --color-text-light: #64748b;
+    
+    --radius-md: 12px;
+    --radius-lg: 20px;
+    
+    --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+    
+    --transition-fast: 0.2s ease;
+    --transition-smooth: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* --- 2. Reset e Configurações Base --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    /* ESSENCIAL: Evita que o header fixo cubra os títulos ao clicar nos links */
+    scroll-padding-top: 100px; 
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Foco acessível para navegação por teclado */
+:focus-visible {
+    outline: 3px solid var(--color-accent);
+    outline-offset: 2px;
+}
+
+/* --- 3. Navegação (Glassmorphism) --- */
+.header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    /* Efeito de vidro fosco no fundo do menu */
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    z-index: 1000;
+    transition: var(--transition-smooth);
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1.2rem 5%;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    text-decoration: none;
+    letter-spacing: -0.5px;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 2rem;
+}
+
+.nav-item {
+    text-decoration: none;
+    color: var(--color-text-light);
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: var(--transition-fast);
+    position: relative;
+}
+
+.nav-item:hover, .nav-item.active {
+    color: var(--color-primary);
+}
+
+/* Linha animada abaixo do link do menu */
+.nav-item::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--color-accent);
+    transition: var(--transition-smooth);
+}
+
+.nav-item:hover::after, .nav-item.active::after {
+    width: 100%;
+}
+
+/* --- 4. Hero / Banner --- */
+.hero {
+    height: 100vh;
+    min-height: 600px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: url('https://images.unsplash.com/photo-1499856871958-5b9627545d1a?q=80&w=2020&auto=format&fit=crop');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; /* Parallax sutil */
+}
+
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(15, 23, 42, 0.4), rgba(15, 23, 42, 0.8));
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    color: #fff;
+    max-width: 800px;
+    padding: 0 2rem;
+}
+
+.hero-content h1 {
+    font-size: clamp(2.5rem, 5vw, 4.5rem); /* Tipografia fluida */
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    letter-spacing: -1px;
+}
+
+.hero-content p {
+    font-size: 1.2rem;
+    opacity: 0.9;
+    margin-bottom: 2.5rem;
+}
+
+.btn {
+    display: inline-block;
+    padding: 1rem 2.5rem;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: var(--transition-smooth);
+    cursor: pointer;
+    border: none;
+}
+
+.btn-primary {
+    background-color: var(--color-accent);
+    color: #fff;
+    box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
+}
+
+.btn-primary:hover {
+    background-color: var(--color-accent-hover);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(245, 158, 11, 0.5);
+}
+
+/* --- 5. Layout das Seções --- */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 5%;
+}
+
+.content-section {
+    padding: 6rem 0;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.section-header h2 {
+    font-size: 2.5rem;
+    color: var(--color-primary);
+    margin-bottom: 0.5rem;
+}
+
+.section-header p {
+    color: var(--color-text-light);
+    font-size: 1.1rem;
+}
+
+/* Grid System para os Cards */
+.grid-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+}
+
+/* --- 6. Cards --- */
+.card {
+    background: var(--color-surface);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition-smooth);
+    border: 1px solid rgba(0,0,0,0.03);
+}
+
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-md);
+}
+
+.card-img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+.card:hover .card-img {
+    transform: scale(1.05); /* Zoom sutil na imagem no hover */
+}
+
+.card-content {
+    padding: 2rem;
+}
+
+.card-content h3 {
+    color: var(--color-primary);
+    margin-bottom: 1rem;
+    font-size: 1.25rem;
+}
+
+/* --- 7. Elementos Especiais --- */
+.grid-layout {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2rem;
+    align-items: start;
+}
+
+.info-box {
+    background: var(--color-primary);
+    color: #fff;
+    padding: 2rem;
+    border-radius: var(--radius-md);
+    display: flex;
+    gap: 1rem;
+}
+
+.info-box .icon {
+    font-size: 1.5rem;
+}
+
+.advice-list {
+    list-style: none;
+}
+
+.advice-list li {
+    margin-bottom: 1rem;
+    padding-left: 1.5rem;
+    position: relative;
+}
+
+.advice-list li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--color-accent);
+    font-weight: bold;
+}
+
+/* --- 8. Footer --- */
+.footer {
+    background-color: var(--color-primary);
+    color: rgba(255,255,255,0.7);
+    padding: 4rem 0;
+    text-align: center;
+}
+
+.footer-brand {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 1rem;
+}
+
+/* --- 9. Botão Topo Animado --- */
+.btn-topo {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background: var(--color-primary);
+    color: white;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    box-shadow: var(--shadow-md);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: var(--transition-smooth);
+    z-index: 999;
+}
+
+.btn-topo.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.btn-topo:hover {
+    background: var(--color-accent);
+    transform: translateY(-5px);
+}
+
+/* --- 10. Classes de Animação (JS Controladas) --- */
+.fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.fade-in.appear {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.delay-1 { transition-delay: 0.2s; }
+
+/* --- 11. Media Queries (Responsividade) --- */
+@media (max-width: 768px) {
+    .grid-layout {
+        grid-template-columns: 1fr;
+    }
+    .nav-links {
+        display: none; /* Em um projeto real, aqui entraria um Menu Hamburguer */
+    }
+    .hero-content h1 {
+        font-size: 2.5rem;
+    }
+}
